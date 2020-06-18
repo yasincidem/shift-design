@@ -2,24 +2,25 @@ package com.yasincidem.shiftdesign
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
+import android.graphics.ColorFilter
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Rect
+import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.res.use
-import com.yasincidem.shiftdesign.R
-import com.yasincidem.shiftdesign.imageview.drawable.BorderDrawable
+import com.yasincidem.shiftdesign.drawable.BorderDrawable
 
 class ShiftImageView: AppCompatImageView {
 
     private var scale: Float = 0.5f
     private lateinit var mBorder: BorderDrawable
     private var shouldDrawBorder: Boolean = false
+    private var connectEdges: Boolean = false
 
     constructor(context: Context): super(context)
 
@@ -44,10 +45,12 @@ class ShiftImageView: AppCompatImageView {
                 val color = getColor(R.styleable.ShiftImageView_borderColor, 0)
                 scale = getFloat(R.styleable.ShiftImageView_dimScale, 0.5f)
                 shouldDrawBorder = !getBoolean(R.styleable.ShiftImageView_lazyDraw, false)
+                connectEdges = getBoolean(R.styleable.ShiftImageView_connectEdges, false)
                 mBorder = BorderDrawable(
                     color,
                     paddingBottom.toFloat(),
-                    paddingEnd.toFloat()
+                    paddingEnd.toFloat(),
+                    connectEdges
                 )
             } finally {
                 recycle()

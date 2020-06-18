@@ -4,5 +4,6 @@
         <attr name="borderColor" format="color"/>
         <attr name="lazyDraw" format="boolean"/>
         <attr name="dimScale" format="float"/>
+        <attr name="connectEdges" format="boolean"/>
     </declare-styleable>
 </resources>
