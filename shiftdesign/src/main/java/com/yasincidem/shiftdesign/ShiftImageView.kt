@@ -1,12 +1,10 @@
 package com.yasincidem.shiftdesign
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.ColorFilter
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.Rect
-import android.graphics.Canvas
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -15,10 +13,12 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.AppCompatImageView
 import com.yasincidem.shiftdesign.drawable.BorderDrawable
 
+
 class ShiftImageView: AppCompatImageView {
 
-    private var scale: Float = 0.5f
+    private lateinit var colorAnim: ValueAnimator
     private lateinit var mBorder: BorderDrawable
+    private var mScale: Float = 0.7f
     private var shouldDrawBorder: Boolean = false
     private var connectEdges: Boolean = false
 
@@ -43,7 +43,7 @@ class ShiftImageView: AppCompatImageView {
         with(attributeValues) {
             try {
                 val color = getColor(R.styleable.ShiftImageView_borderColor, 0)
-                scale = getFloat(R.styleable.ShiftImageView_dimScale, 0.5f)
+                mScale = getFloat(R.styleable.ShiftImageView_dimScale, 0.7f)
                 shouldDrawBorder = !getBoolean(R.styleable.ShiftImageView_lazyDraw, false)
                 connectEdges = getBoolean(R.styleable.ShiftImageView_connectEdges, false)
                 mBorder = BorderDrawable(
@@ -71,10 +71,9 @@ class ShiftImageView: AppCompatImageView {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        val filter = createDimFilter()
         when(event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                focus(filter)
+                focus()
                 return true
             }
             MotionEvent.ACTION_SCROLL -> {
@@ -91,10 +90,10 @@ class ShiftImageView: AppCompatImageView {
         }
     }
 
-    private fun focus(filter: ColorFilter) {
+    private fun focus() {
         isPressed = true
         performFocusAnimation()
-        applyColorFilter(filter)
+        applyColorFilter()
     }
 
     private fun release() {
@@ -103,12 +102,19 @@ class ShiftImageView: AppCompatImageView {
         clearColorFilters()
     }
 
-    private fun applyColorFilter(filter: ColorFilter) {
-        colorFilter = filter
-        mBorder.colorFilter = filter
+    private fun applyColorFilter() {
+        colorAnim = ObjectAnimator.ofFloat(0.99f, mScale)
+        colorAnim.addUpdateListener { animation ->
+            val av = animation.animatedValue as Float
+            colorFilter = createDimFilter(av)
+            mBorder.colorFilter = createDimFilter(av)
+        }
+        colorAnim.duration = 100
+        colorAnim.start()
     }
 
     private fun clearColorFilters() {
+        colorAnim.reverse()
         clearColorFilter()
         mBorder.clearColorFilter()
     }
@@ -123,7 +129,7 @@ class ShiftImageView: AppCompatImageView {
         startAnimation(animation)
     }
 
-    private fun createDimFilter(): ColorFilter {
+    private fun createDimFilter(scale: Float): ColorFilter {
         val colorMatrix = ColorMatrix()
         colorMatrix.setSaturation(0f)
         colorMatrix.setScale(scale, scale, scale, 1f)
