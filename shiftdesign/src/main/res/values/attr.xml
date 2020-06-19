@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="borderColor" format="color"/>
+    <attr name="lazyDraw" format="boolean"/>
+
+    <declare-styleable name="ShiftImageView">
+        <attr name="borderColor"/>
+        <attr name="lazyDraw"/>
+        <attr name="dimScale" format="float"/>
+        <attr name="connectEdges" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="ShiftTextView">
+        <attr name="borderColor"/>
+        <attr name="lazyDraw"/>
+        <attr name="spanType" format="enum">
+            <enum name="shift" value="0"/>
+            <enum name="transparent" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>

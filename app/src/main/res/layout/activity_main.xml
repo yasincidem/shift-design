@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.yasincidem.shiftdesign.ShiftImageView
+    <com.yasincidem.shiftdesign.imageview.ShiftImageView
         android:id="@+id/shift_image_view_first"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -25,7 +25,7 @@
         tools:ignore="RtlSymmetry" />
 
 
-    <com.yasincidem.shiftdesign.ShiftImageView
+    <com.yasincidem.shiftdesign.imageview.ShiftImageView
         android:id="@+id/shift_image_view_second"
         android:layout_width="100dp"
         android:layout_height="100dp"
