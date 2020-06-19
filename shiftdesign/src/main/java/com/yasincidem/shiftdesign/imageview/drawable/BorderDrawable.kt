@@ -1,4 +1,4 @@
-package com.yasincidem.shiftdesign.drawable
+package com.yasincidem.shiftdesign.imageview.drawable
 
 import android.graphics.Canvas
 import android.graphics.Paint

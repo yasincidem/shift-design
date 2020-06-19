@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="ShiftImageView">
-        <attr name="borderColor" format="color"/>
-        <attr name="lazyDraw" format="boolean"/>
-        <attr name="dimScale" format="float"/>
-        <attr name="connectEdges" format="boolean"/>
-    </declare-styleable>
-</resources>
